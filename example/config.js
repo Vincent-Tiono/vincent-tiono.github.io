@@ -13,11 +13,7 @@ module.exports = {
     'Beyond my work in Machine Learning, I\'ve had the privilege of interning at [VICI Holdings](https://www.viciholdings.com/en/) as a **Quantitative Research Intern**, [EY-Parthenon](https://www.ey.com/zh_tw/services/strategy-transactions) as a **Strategy and Transactions Summer Associate**, and [Walsin Lihwa](https://www.walsin.com/en/) as a **Business Administration Intern**. Broadly, I am passionate about the intersection of **AI**, **Quant Trading**, and **Business Strategy**.',
   ],
   avatar: 'avatar-new.png',
-  professions: [
-    // 'Software Engineer',
-    // 'Full Stack Developer',
-    'Made in Indonesia',
-  ],
+  professions: [],
   tocMaxDepth: 2,
   excerptMaxLength: 500,
   // birthday: 'Some day',

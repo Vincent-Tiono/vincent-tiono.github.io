@@ -1,6 +1,11 @@
 // eslint-disable-next-line import/no-unresolved
 import { useLocation } from '@gatsbyjs/reach-router';
-import React, { useRef, useContext } from 'react';
+import React, {
+  useRef,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import {
   Container, Content, Row, Col, List, Button, Sidebar, Grid, FlexboxGrid, Divider, IconButton,
 } from 'rsuite';
@@ -39,12 +44,79 @@ const Name = () => {
   );
 };
 
+const VISITOR_COUNT_STORAGE_KEY = 'gatsby-academic-visitor-count';
+const VISITOR_COUNT_ENDPOINT = 'https://api.countapi.xyz/hit/vincent-tiono.github.io/visitor-count';
+
+const formatOrdinal = (value) => {
+  const mod10 = value % 10;
+  const mod100 = value % 100;
+  if (mod10 === 1 && mod100 !== 11) return `${value}st`;
+  if (mod10 === 2 && mod100 !== 12) return `${value}nd`;
+  if (mod10 === 3 && mod100 !== 13) return `${value}rd`;
+  return `${value}th`;
+};
+
 const UserInfo = () => {
   const siteMetadata = useSiteMetadata();
+  const [visitorCount, setVisitorCount] = useState(() => {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+    const storedValue = Number(window.localStorage.getItem(VISITOR_COUNT_STORAGE_KEY));
+    return Number.isFinite(storedValue) ? storedValue : null;
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    let isMounted = true;
+
+    const fetchVisitorCount = async () => {
+      try {
+        const response = await fetch(VISITOR_COUNT_ENDPOINT);
+        if (!response.ok) {
+          throw new Error('Failed to fetch visitor count');
+        }
+        const data = await response.json();
+        if (isMounted && typeof data.value === 'number') {
+          setVisitorCount(data.value);
+          window.localStorage.setItem(VISITOR_COUNT_STORAGE_KEY, data.value);
+        }
+      } catch (error) {
+        // Swallow the error and keep any locally cached count instead.
+      }
+    };
+
+    fetchVisitorCount();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const visitorMessage = visitorCount !== null
+    ? `You are the ${formatOrdinal(visitorCount)} visitor, welcome!`
+    : 'Welcome!';
+
   return (
     <>
       <div className={`${style.name} centerAlign`}>
         <Row type="flex">
+          <Col
+            xs={24}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <span
+              className={`${style.badge} ${style.badgeGray}`}
+              style={{ fontStyle: 'italic' }}
+            >
+              {visitorMessage}
+            </span>
+          </Col>
           {siteMetadata.professions.map((profession) => (
             <Col
               key={profession}

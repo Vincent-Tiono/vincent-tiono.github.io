@@ -548,6 +548,9 @@ export const createSchemaCustomization = async (
       title: String!
       location: String!
     }
+    type SiteSiteMetadata {
+      professions: [String]
+    }
   `;
   const MdxFrontmatterDef = schema.buildObjectType({
     name: 'MdxFrontmatter',
