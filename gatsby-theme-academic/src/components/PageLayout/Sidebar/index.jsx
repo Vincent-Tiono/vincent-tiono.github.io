@@ -45,7 +45,8 @@ const Name = () => {
 };
 
 const VISITOR_COUNT_STORAGE_KEY = 'gatsby-academic-visitor-count';
-const VISITOR_COUNT_ENDPOINT = 'https://api.countapi.xyz/hit/vincent-tiono.github.io/visitor-count';
+const VISITOR_COUNT_ENDPOINT = process.env.GATSBY_VISITOR_COUNT_ENDPOINT
+  || 'https://vincent-tiono.github.io/hit';
 
 const formatOrdinal = (value) => {
   const mod10 = value % 10;
