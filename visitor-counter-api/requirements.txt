@@ -1,2 +1,6 @@
 fastapi
 uvicorn
+google-analytics-data
+google-analytics-admin
+google-auth
+python-dotenv

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visitor Counter Test</title>
+</head>
+<body>
+    <h1>Testing Visitor Counter Logic</h1>
+    <div id="result"></div>
+
+    <script>
+        // Simulate the visitor counter logic
+        const VISITOR_COUNT_STORAGE_KEY = 'gatsby-academic-visitor-count';
+        
+        console.log('Testing visitor counter logic...');
+        
+        // Get or initialize the visit count from localStorage
+        const storedCount = localStorage.getItem(VISITOR_COUNT_STORAGE_KEY);
+        let count = storedCount ? parseInt(storedCount, 10) : 0;
+        
+        console.log('Stored count:', storedCount);
+        
+        // Check if this is a new session (simplified approach)
+        const sessionKey = 'gatsby-academic-session';
+        const currentSession = sessionStorage.getItem(sessionKey);
+        
+        console.log('Current session:', currentSession);
+        
+        if (!currentSession) {
+            // New session - increment counter
+            count += 1;
+            localStorage.setItem(VISITOR_COUNT_STORAGE_KEY, count.toString());
+            sessionStorage.setItem(sessionKey, 'active');
+            
+            console.log('New session detected! Count incremented to:', count);
+            
+            // Simulate Google Analytics event
+            console.log('Would send GA event: new_visitor with value', count);
+        } else {
+            console.log('Existing session, count remains:', count);
+        }
+        
+        const message = count > 0 
+            ? `${count.toLocaleString()} visits • Welcome!`
+            : 'Welcome! 👋';
+        
+        document.getElementById('result').innerHTML = `
+            <h2>${message}</h2>
+            <p>Stored count: ${storedCount}</p>
+            <p>Current count: ${count}</p>
+            <p>Session: ${currentSession || 'New'}</p>
+            <button onclick="location.reload()">Reload Page (Same Session)</button>
+            <button onclick="clearSession()">Clear Session & Reload</button>
+        `;
+        
+        function clearSession() {
+            sessionStorage.removeItem(sessionKey);
+            location.reload();
+        }
+        
+        window.clearSession = clearSession;
+    </script>
+</body>
+</html>

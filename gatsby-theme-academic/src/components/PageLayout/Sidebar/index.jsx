@@ -45,6 +45,7 @@ const Name = () => {
 };
 
 const VISITOR_COUNT_STORAGE_KEY = 'gatsby-academic-visitor-count';
+const VISITOR_COUNT_CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
 const VISITOR_COUNT_ENDPOINT = process.env.GATSBY_VISITOR_COUNT_ENDPOINT
   || 'https://vincent-tiono.github.io/hit';
 
@@ -63,42 +64,74 @@ const UserInfo = () => {
     if (typeof window === 'undefined') {
       return null;
     }
-    const storedValue = Number(window.localStorage.getItem(VISITOR_COUNT_STORAGE_KEY));
-    return Number.isFinite(storedValue) ? storedValue : null;
+    // Get locally stored visit count
+    const stored = localStorage.getItem(VISITOR_COUNT_STORAGE_KEY);
+    return stored ? parseInt(stored, 10) : null;
   });
+  
+  const [debugMode, setDebugMode] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;
     }
-    let isMounted = true;
 
-    const fetchVisitorCount = async () => {
-      try {
-        const response = await fetch(VISITOR_COUNT_ENDPOINT);
-        if (!response.ok) {
-          throw new Error('Failed to fetch visitor count');
+    const initializeCounter = () => {
+      console.log('🔢 Initializing visitor counter...');
+      
+      // Get or initialize the visit count from localStorage
+      const storedCount = localStorage.getItem(VISITOR_COUNT_STORAGE_KEY);
+      let count = storedCount ? parseInt(storedCount, 10) : 0;
+      
+      console.log('📊 Stored count:', storedCount, 'Parsed count:', count);
+
+      // Check if this is a new session (simplified approach)
+      const sessionKey = 'gatsby-academic-session';
+      const currentSession = sessionStorage.getItem(sessionKey);
+      
+      console.log('🔑 Current session:', currentSession);
+      
+      if (!currentSession) {
+        // New session - increment counter
+        count += 1;
+        localStorage.setItem(VISITOR_COUNT_STORAGE_KEY, count.toString());
+        sessionStorage.setItem(sessionKey, 'active');
+        
+        console.log('✅ New session detected! Count incremented to:', count);
+
+        // Send event to Google Analytics
+        if (typeof window.gtag === 'function') {
+          console.log('📈 Sending GA event: new_visitor with value', count);
+          window.gtag('event', 'new_visitor', {
+            'event_category': 'engagement',
+            'value': count
+          });
+        } else {
+          console.log('⚠️ Google Analytics gtag not available');
         }
-        const data = await response.json();
-        if (isMounted && typeof data.value === 'number') {
-          setVisitorCount(data.value);
-          window.localStorage.setItem(VISITOR_COUNT_STORAGE_KEY, data.value);
-        }
-      } catch (error) {
-        // Swallow the error and keep any locally cached count instead.
+      } else {
+        console.log('🔄 Existing session, count remains:', count);
       }
+
+      console.log('🎯 Final visitor count:', count);
+      setVisitorCount(count);
     };
 
-    fetchVisitorCount();
-
-    return () => {
-      isMounted = false;
-    };
+    // Initialize on mount
+    initializeCounter();
   }, []);
 
-  const visitorMessage = visitorCount !== null
-    ? `You are the ${formatOrdinal(visitorCount)} visitor, welcome!`
-    : 'Welcome!';
+  const visitorMessage = visitorCount !== null && visitorCount > 0
+    ? `${visitorCount.toLocaleString()} visits • Welcome!`
+    : 'Welcome! 👋';
+
+  const clearTestData = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(VISITOR_COUNT_STORAGE_KEY);
+      sessionStorage.removeItem('gatsby-academic-session');
+      window.location.reload();
+    }
+  };
 
   return (
     <>
@@ -113,10 +146,32 @@ const UserInfo = () => {
           >
             <span
               className={`${style.badge} ${style.badgeGray}`}
-              style={{ fontStyle: 'italic' }}
+              style={{ fontStyle: 'italic', cursor: 'pointer' }}
+              onClick={() => setDebugMode(!debugMode)}
+              title="Click to toggle debug info"
             >
               {visitorMessage}
             </span>
+            {debugMode && (
+              <div style={{
+                fontSize: '10px',
+                background: '#f0f0f0',
+                padding: '8px',
+                margin: '5px 0',
+                borderRadius: '4px',
+                border: '1px solid #ddd'
+              }}>
+                <div>Count: {visitorCount}</div>
+                <div>Stored: {typeof window !== 'undefined' ? localStorage.getItem(VISITOR_COUNT_STORAGE_KEY) : 'N/A'}</div>
+                <div>Session: {typeof window !== 'undefined' ? (sessionStorage.getItem('gatsby-academic-session') ? 'Active' : 'New') : 'N/A'}</div>
+                <button 
+                  onClick={clearTestData}
+                  style={{ fontSize: '10px', padding: '2px 5px', marginTop: '5px' }}
+                >
+                  Reset Counter
+                </button>
+              </div>
+            )}
           </Col>
           {siteMetadata.professions.map((profession) => (
             <Col
