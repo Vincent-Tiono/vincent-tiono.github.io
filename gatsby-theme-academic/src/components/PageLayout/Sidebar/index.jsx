@@ -122,7 +122,7 @@ const UserInfo = () => {
   }, []);
 
   const visitorMessage = visitorCount !== null && visitorCount > 0
-    ? `${visitorCount.toLocaleString()} visits • Welcome!`
+    ? `You are the ${formatOrdinal(visitorCount)} visitor, welcome!`
     : 'Welcome! 👋';
 
   const clearTestData = () => {
@@ -146,7 +146,13 @@ const UserInfo = () => {
           >
             <span
               className={`${style.badge} ${style.badgeGray}`}
-              style={{ fontStyle: 'italic', cursor: 'pointer' }}
+              style={{ 
+                fontStyle: 'italic', 
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                display: 'inline-block',
+                minWidth: 'fit-content'
+              }}
               onClick={() => setDebugMode(!debugMode)}
               title="Click to toggle debug info"
             >
@@ -211,7 +217,9 @@ const UserInfo = () => {
         </div>
         <div
           style={{
-            width: '200px',
+            width: 'auto',
+            minWidth: '200px',
+            maxWidth: '300px',
             marginBottom: '-0.5rem',
           }}
         >
