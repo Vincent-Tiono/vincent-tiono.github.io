@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Annotated
+from typing import Generator
 
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -24,8 +24,13 @@ class CounterResponse(BaseModel):
     value: int
 
 
-def get_connection() -> Annotated[sqlite3.Connection, Depends]:
-    conn = sqlite3.connect(DB_PATH)
+def get_connection() -> Generator[sqlite3.Connection, None, None]:
+    conn = sqlite3.connect(
+        DB_PATH,
+        check_same_thread=False,
+        timeout=10,
+    )
+    conn.row_factory = sqlite3.Row
     conn.execute(
         """
         CREATE TABLE IF NOT EXISTS stats (
@@ -34,31 +39,31 @@ def get_connection() -> Annotated[sqlite3.Connection, Depends]:
         )
         """
     )
-    conn.execute(
-        "INSERT OR IGNORE INTO stats (id, total) VALUES (1, 0)"
-    )
-    return conn
+    conn.execute("INSERT OR IGNORE INTO stats (id, total) VALUES (1, 0)")
+
+    try:
+        yield conn
+    finally:
+        conn.close()
 
 
 @app.post("/hit", response_model=CounterResponse)
 @app.get("/hit", response_model=CounterResponse)
-def hit_endpoint(conn: Annotated[sqlite3.Connection, Depends(get_connection)]):
+def hit_endpoint(conn: sqlite3.Connection = Depends(get_connection)):
     cursor = conn.cursor()
     cursor.execute("UPDATE stats SET total = total + 1 WHERE id = 1")
     conn.commit()
     cursor.execute("SELECT total FROM stats WHERE id = 1")
     total = cursor.fetchone()[0]
-    conn.close()
     return CounterResponse(value=total)
 
 
 @app.get("/current", response_model=CounterResponse)
-def current_count(conn: Annotated[sqlite3.Connection, Depends(get_connection)]):
+def current_count(conn: sqlite3.Connection = Depends(get_connection)):
     cursor = conn.cursor()
     cursor.execute("SELECT total FROM stats WHERE id = 1")
     row = cursor.fetchone()
     total = row[0] if row else 0
-    conn.close()
     return CounterResponse(value=total)
 
 
