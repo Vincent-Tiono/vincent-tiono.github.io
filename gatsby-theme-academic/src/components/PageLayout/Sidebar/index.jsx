@@ -191,7 +191,7 @@ const UserInfo = () => {
   }, []);
 
   const visitorMessage = visitorCount !== null && visitorCount > 0
-    ? `You are the ${formatOrdinal(visitorCount)} visitor, welcome!`
+    ? `It's your ${formatOrdinal(visitorCount)} visit, welcome!`
     : 'Welcome! 👋';
 
   const clearTestData = () => {
