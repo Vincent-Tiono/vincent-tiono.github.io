@@ -45,6 +45,7 @@ const Name = () => {
 };
 
 const VISITOR_COUNT_STORAGE_KEY = 'gatsby-academic-visitor-count';
+const VISITOR_COUNT_CACHE_TIMESTAMP_KEY = 'gatsby-academic-visitor-count-updated-at';
 const VISITOR_COUNT_CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
 const VISITOR_COUNT_ENDPOINT = process.env.GATSBY_VISITOR_COUNT_ENDPOINT
   || 'https://vincent-tiono.github.io/hit';
@@ -76,45 +77,113 @@ const UserInfo = () => {
       return;
     }
 
-    const initializeCounter = () => {
-      console.log('🔢 Initializing visitor counter...');
-      
-      // Get or initialize the visit count from localStorage
+    const sessionKey = 'gatsby-academic-session';
+
+    const readCachedCount = () => {
       const storedCount = localStorage.getItem(VISITOR_COUNT_STORAGE_KEY);
-      let count = storedCount ? parseInt(storedCount, 10) : 0;
-      
-      console.log('📊 Stored count:', storedCount, 'Parsed count:', count);
-
-      // Check if this is a new session (simplified approach)
-      const sessionKey = 'gatsby-academic-session';
-      const currentSession = sessionStorage.getItem(sessionKey);
-      
-      console.log('🔑 Current session:', currentSession);
-      
-      if (!currentSession) {
-        // New session - increment counter
-        count += 1;
-        localStorage.setItem(VISITOR_COUNT_STORAGE_KEY, count.toString());
-        sessionStorage.setItem(sessionKey, 'active');
-        
-        console.log('✅ New session detected! Count incremented to:', count);
-
-        // Send event to Google Analytics
-        if (typeof window.gtag === 'function') {
-          console.log('📈 Sending GA event: new_visitor with value', count);
-          window.gtag('event', 'new_visitor', {
-            'event_category': 'engagement',
-            'value': count
-          });
-        } else {
-          console.log('⚠️ Google Analytics gtag not available');
-        }
-      } else {
-        console.log('🔄 Existing session, count remains:', count);
+      if (storedCount === null) {
+        return null;
       }
 
-      console.log('🎯 Final visitor count:', count);
+      const parsed = parseInt(storedCount, 10);
+      return Number.isFinite(parsed) ? parsed : null;
+    };
+
+    const updateCachedCount = (count) => {
+      localStorage.setItem(VISITOR_COUNT_STORAGE_KEY, count.toString());
+      localStorage.setItem(VISITOR_COUNT_CACHE_TIMESTAMP_KEY, Date.now().toString());
       setVisitorCount(count);
+    };
+
+    const sendGoogleAnalytics = (count) => {
+      if (typeof window.gtag === 'function') {
+        console.log('📈 Sending GA event: new_visitor with value', count);
+        window.gtag('event', 'new_visitor', {
+          'event_category': 'engagement',
+          'value': count
+        });
+      } else {
+        console.log('⚠️ Google Analytics gtag not available');
+      }
+    };
+
+    const fetchGlobalCount = async (method) => {
+      try {
+        const response = await fetch(VISITOR_COUNT_ENDPOINT, {
+          method,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Unexpected status ${response.status}`);
+        }
+
+        const payload = await response.json();
+        if (payload && typeof payload.value === 'number' && Number.isFinite(payload.value)) {
+          console.log('🌐 Synced global visitor count:', payload.value);
+          updateCachedCount(payload.value);
+          return payload.value;
+        }
+
+        throw new Error('Malformed response payload');
+      } catch (error) {
+        console.error('❌ Failed to sync visitor count with API:', error);
+        return null;
+      }
+    };
+
+    const initializeCounter = async () => {
+      console.log('🔢 Initializing visitor counter...');
+
+      const cachedCount = readCachedCount();
+      const cachedTimestampRaw = localStorage.getItem(VISITOR_COUNT_CACHE_TIMESTAMP_KEY);
+      const cachedTimestamp = cachedTimestampRaw ? parseInt(cachedTimestampRaw, 10) : null;
+
+      if (typeof cachedCount === 'number') {
+        console.log('📊 Cached count found:', cachedCount);
+        setVisitorCount(cachedCount);
+      }
+
+      const currentSession = sessionStorage.getItem(sessionKey);
+      const isNewSession = !currentSession;
+
+      console.log('🔑 Current session:', currentSession);
+
+      if (isNewSession) {
+        const optimisticCount = (cachedCount ?? 0) + 1;
+        updateCachedCount(optimisticCount);
+        sessionStorage.setItem(sessionKey, 'active');
+
+        console.log('✅ New session detected! Optimistic count:', optimisticCount);
+        sendGoogleAnalytics(optimisticCount);
+
+        const syncedCount = await fetchGlobalCount('POST');
+        if (syncedCount === null) {
+          console.log('💾 Falling back to local optimistic count.');
+        }
+        return;
+      }
+
+      console.log('🔄 Existing session detected.');
+
+      const cacheStale = !cachedTimestamp || (Date.now() - cachedTimestamp) > VISITOR_COUNT_CACHE_DURATION;
+      if (cacheStale) {
+        console.log('🕒 Cache stale or missing, fetching current global count...');
+        const syncedCount = await fetchGlobalCount('GET');
+        if (syncedCount === null) {
+          console.log('⚠️ Could not refresh global count, using cached value.');
+        }
+      } else if (cachedCount === null) {
+        console.log('ℹ️ No cached count available, will attempt to fetch.');
+        const syncedCount = await fetchGlobalCount('GET');
+        if (syncedCount === null) {
+          console.log('⚠️ Could not fetch global count, count remains null.');
+        }
+      } else {
+        console.log('🗄️ Using cached visitor count:', cachedCount);
+      }
     };
 
     // Initialize on mount
@@ -128,6 +197,7 @@ const UserInfo = () => {
   const clearTestData = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem(VISITOR_COUNT_STORAGE_KEY);
+      localStorage.removeItem(VISITOR_COUNT_CACHE_TIMESTAMP_KEY);
       sessionStorage.removeItem('gatsby-academic-session');
       window.location.reload();
     }
@@ -169,6 +239,7 @@ const UserInfo = () => {
               }}>
                 <div>Count: {visitorCount}</div>
                 <div>Stored: {typeof window !== 'undefined' ? localStorage.getItem(VISITOR_COUNT_STORAGE_KEY) : 'N/A'}</div>
+                <div>Updated: {typeof window !== 'undefined' ? localStorage.getItem(VISITOR_COUNT_CACHE_TIMESTAMP_KEY) : 'N/A'}</div>
                 <div>Session: {typeof window !== 'undefined' ? (sessionStorage.getItem('gatsby-academic-session') ? 'Active' : 'New') : 'N/A'}</div>
                 <button 
                   onClick={clearTestData}

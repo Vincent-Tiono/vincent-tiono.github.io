@@ -32,6 +32,7 @@ const VisitorCounterTest = () => {
   
   const clearData = () => {
     localStorage.removeItem('gatsby-academic-visitor-count');
+    localStorage.removeItem('gatsby-academic-visitor-count-updated-at');
     sessionStorage.removeItem('gatsby-academic-session');
     window.location.reload();
   };
