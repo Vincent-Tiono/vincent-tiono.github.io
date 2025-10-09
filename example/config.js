@@ -135,7 +135,7 @@ module.exports = {
       position: 'left',
       data: [
         {
-          date: '(Incoming) Oct. 2025',
+          date: 'Oct. 2025 - Present',
           title: 'Quantitative Research Intern',
           location: '[**VICI Holdings**](https://www.viciholdings.com/en/)',
           description: [],
