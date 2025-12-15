@@ -13,13 +13,8 @@ Beyond Machine Learning, I have interned at [VICI Holdings](https://www.vicihold
 ## Research Interests
 
 - **Computer Vision:** image recognition, image generation, video captioning
-- **Machine Learning:** meta-learning, incremental learning, transfer learning
 
 ## News
 
 - **[Oct. 2026]** Incoming exchange student @[LMU Munich](https://www.lmu.de/en/)!
 - **[Nov. 2025]** Visiting scholar @[Institute for solid state physics, the university of Tokyo](https://www.issp.u-tokyo.ac.jp/index_en.html)!
-<!-- 
-{% include_relative _includes/publications.md %}
-
-{% include_relative _includes/services.md %} -->
