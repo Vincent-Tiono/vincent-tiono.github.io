@@ -9,6 +9,6 @@
   <li><strong>[Feb. 2026]</strong> Join <a href="https://nturll.xyz/about">NTURLL</a> as an undergraduate researcher.</li>
 </ul>
 
-<div style="margin-left: 20px;">
+<div style="margin-left: 40px; margin-bottom: 20px">
   <a id="news-more-button" href="#" onclick="toggleNews(event)" style="text-decoration: none; color: #39c;">Click to show older news ...</a>
 </div>
