@@ -1,4 +1,4 @@
-<h2 style="margin: 60px 0px 10px;">News</h2>
+<h2 style="margin: 40px 0px 10px;">News</h2>
 
 <ul>
 <li><strong>[Feb. 2025]</strong> Our paper about <a href="./publications">meta-learning</a> is accepted to <a href="https://cvpr.thecvf.com/">CVPR 2025</a>.</li>
