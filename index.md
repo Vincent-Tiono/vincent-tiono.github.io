@@ -16,4 +16,6 @@ Beyond Machine Learning, I have interned at [VICI Holdings](https://www.vicihold
 
 {% include_relative _includes/news.md %}
 
+## More about me
+
 {% include_relative _includes/services.md %}

@@ -15,7 +15,7 @@
   <li><a href="https://www.springer.com/journal/11263"><autocolor>International Journal of Computer Vision (IJCV)</autocolor></a></li>
 </ul> -->
 
-## More about me
+
 <ul style="margin:0 0 5px;">
   <li><autocolor> Born and raised in Jakarta, Indonesia. </autocolor></li>
   <li><autocolor> I speak Mandarin, English, Bahasa Indonesia, and a bit of German and Japanese. </autocolor></li>

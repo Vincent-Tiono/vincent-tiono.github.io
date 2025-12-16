@@ -4,7 +4,7 @@
   <li><strong>[Oct. 2026]</strong> Join <a href="https://www.viciholdings.com/en/">VICI Holdings</a> as a quant research intern.</li>
 </ul>
 
-<ul id="news-more" style="display:none; margin-top: 0;">
+<ul id="news-more" style="display:none; margin-top: 0; margin-bottom: 0;">
   <li><strong>[June 2026]</strong> Join <a href="https://www.ey.com/zh_tw/services/strategy-transactions">EY-Parthenon</a> as a strategy & transactions summer associate.</li>
   <li><strong>[Feb. 2026]</strong> Join <a href="https://nturll.xyz/about">NTURLL</a> as an undergraduate researcher.</li>
 </ul>
