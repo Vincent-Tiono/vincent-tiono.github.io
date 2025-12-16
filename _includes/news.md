@@ -9,8 +9,8 @@
 
 <li> <a href="#" onclick="toggleVis(this); return false;">Show more</a> </li>
 <div id="newsmore" style="display:none"> 
-    <li><strong>[June. 2026]</strong> Join <a href="https://www.ey.com/zh_tw/services/strategy-transactions">EY-Parthenon</a> as a startegy & transactions summer associate.</li>
-    <li><strong>[June. 2026]</strong> Join <a href="https://nturll.xyz/about">NTURLL</a> as an undergraduate researcher.</li>
+    <li><strong>[June 2026]</strong> Join <a href="https://www.ey.com/zh_tw/services/strategy-transactions">EY-Parthenon</a> as a startegy & transactions summer associate.</li>
+    <li><strong>[Feb. 2026]</strong> Join <a href="https://nturll.xyz/about">NTURLL</a> as an undergraduate researcher.</li>
 </div>
 
 </ul>
