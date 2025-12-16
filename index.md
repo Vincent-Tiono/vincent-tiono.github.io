@@ -12,6 +12,8 @@ Beyond Machine Learning, I have interned at [VICI Holdings](https://www.vicihold
 
 - **Computer Vision:** image recognition, image generation, video captioning
 
+## News
+
 {% include_relative _includes/news.md %}
 
 {% include_relative _includes/services.md %}
