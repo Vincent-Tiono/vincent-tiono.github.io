@@ -19,14 +19,17 @@
     <script src="./assets/js/favicon-switcher.js" type="application/javascript"></script>
 
     <script type="text/javascript">
-      function toggleVis(link) {
-        var div = document.getElementById('newsmore');
-        if (div.style.display === 'none') {
-          div.style.display = 'block';
-          link.textContent = 'Show less';
+      function toggleNews(e) {
+        e.preventDefault(); // Prevent default anchor jump behavior
+        var hiddenList = document.getElementById('news-more');
+        var link = document.getElementById('news-more-button');
+    
+        if (hiddenList.style.display === 'none') {
+          hiddenList.style.display = 'block';
+          link.textContent = 'Click to show newer news ...';
         } else {
-          div.style.display = 'none';
-          link.textContent = 'Show more';
+          hiddenList.style.display = 'none';
+          link.textContent = 'Click to show older news ...';
         }
       }
     </script>
