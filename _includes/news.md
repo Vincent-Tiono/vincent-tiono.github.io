@@ -10,5 +10,5 @@
 </ul>
 
 <div style="margin-left: 20px;">
-  <a id="news-more-button" href="#" onclick="toggleNews(event)" style="text-decoration: none; color: #86985c;">Click to show older news ...</a>
+  <a id="news-more-button" href="#" onclick="toggleNews(event)" style="text-decoration: none; color: #39c;">Click to show older news ...</a>
 </div>
