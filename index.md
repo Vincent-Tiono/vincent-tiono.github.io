@@ -6,7 +6,7 @@ I am a fourth-year [Electrical Engineering](https://web.ee.ntu.edu.tw/eng/index.
    
 Beyond Machine Learning, I have interned at [VICI Holdings](https://www.viciholdings.com/en/) as a **Quant Research Intern**, [EY-Parthenon](https://www.ey.com/zh_tw/services/strategy-transactions) as a **Strategy & Transactions Summer Associate**, and [Walsin Lihwa](https://www.walsin.com/en/) as a **Business Administration Intern**. Broadly, I am passionate about **AI**, **Quant Trading**, and **Business Strategy**.
 
-**I am looking for collaboration and research assistant opportunity in Germany!**
+<!-- **I am looking for collaboration and research assistant opportunity in Germany!** -->
 
 ## Research Interests
 
