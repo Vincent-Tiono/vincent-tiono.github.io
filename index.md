@@ -9,8 +9,11 @@ Beyond Machine Learning, I have interned at [VICI Holdings](https://www.vicihold
 <!-- **I am looking for collaboration and research assistant opportunity in Germany!** -->
 
 ## Research Interests
+My research focuses on programmatic policy learning for robotics, exploring how to automatically synthesize interpretable and generalizable robot policies from demonstrations. I work at the intersection of program synthesis, reinforcement learning, and vision-language models.
 
-- **Computer Vision:** image recognition, image generation, video captioning
+- **Program Synthesis from Demonstrations:** Converting robot trajectories into executable programs using neural synthesizers and hierarchical decomposition
+- **DSL (Domain-Specific Language) Invention:** Automating the creation of domain-specific languages by learning symbolic abstractions (predicates and operators) from video, enabling physically grounded policies than generic code generation
+- **Bridging Symbolic and Continuous Control:** Combining high-level task planning (PDDL/TAMP) with learned low-level policies for interpretable, generalizable robot behaviors
 
 ## News
 
