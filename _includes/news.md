@@ -1,6 +1,6 @@
 <ul style="margin-bottom: 0;">
   <li><strong>[Oct. 2026]</strong> Incoming exchange student @<a href="https://www.lmu.de/en/">LMU Munich</a> ~June 2027.</li>
-  <li><strong>[Oct. 2025]</strong> Analyst @<a href="https://www.group-oic.com/indonesia">OIC Indonesia</a> M&A Strategy Team!</li>
+  <li><strong>[Jan. 2026]</strong> Analyst @<a href="https://www.group-oic.com/indonesia">OIC Indonesia</a> M&A Strategy Team!</li>
   <li><strong>[Nov. 2025]</strong> Visiting Scholar @<a href="https://www.issp.u-tokyo.ac.jp/index_en.html">Institute for solid state physics, the university of Tokyo</a>.</li>
 </ul>
 
