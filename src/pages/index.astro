@@ -1,21 +1,74 @@
 ---
 import PageLayout from '../layouts/BaseLayout.astro'
 import Section from '../components/Section.astro'
-import Card from '../components/Card.astro'
+// import Card from '../components/Card.astro'
 import ProjectCard from '../components/ProjectCard.astro'
 import Label from '../components/Label.astro'
-import SkillLayout from '../components/SkillLayout.astro'
+// import SkillLayout from '../components/SkillLayout.astro'
 import PostPreview from '@/components/blog/PostPreview.astro'
 
 import { Image } from 'astro:assets'
-import astro from '../assets/about-astro.png'
+import astro from '../assets/profile.png'
 
 import { getAllPosts, sortMDByDate } from '@/utils'
 
-const languages = ['lorem', 'ipsum']
-const frontend = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
-const backend = ['lorem', 'ipsum', 'lorem', 'ipsum']
-const others = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
+// const languages = ['lorem', 'ipsum']
+// const frontend = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
+// const backend = ['lorem', 'ipsum', 'lorem', 'ipsum']
+// const others = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
+
+const experienceTabs = [
+	{
+		id: 'ai',
+		label: 'AI',
+		items: [
+			{
+				date: '2024 - Present',
+				name: 'AI Experience',
+				description:
+					'Built AI-powered tools and automation workflows. Worked with LLMs, prompt engineering, and data pipelines.'
+			}
+		]
+	},
+	{
+		id: 'finance',
+		label: 'Finance',
+		items: [
+			{
+				date: '2023 - Present',
+				name: 'Finance Experience',
+				description:
+					'Analyzed financial data, reports, and market trends. Created dashboards and models for decision-making.'
+			}
+		]
+	},
+	{
+		id: 'business',
+		label: 'Business',
+		items: [
+			{
+				date: '2022 - Present',
+				name: 'Business Experience',
+				description:
+					'Worked on business strategy, operations, and growth projects. Collaborated with teams to improve processes and outcomes.'
+			}
+		]
+	}
+]
+
+const educationItems = [
+	{
+		date: 'Oct 2026 - June 2027',
+		name: 'Ludwig-Maximilians-Universität München',
+		description:
+			'Exchange study in Mathematics, Computer Science and Statistics'
+	},
+	{
+		date: 'Sep 2022 - June 2027',
+		name: 'National Taiwan University',
+		description: 'B.S. in Engineering in Electrical Engineering'
+	}
+]
 
 const MAX_POSTS = 10
 const allPosts = await getAllPosts()
@@ -23,30 +76,17 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 ---
 
 <PageLayout meta={{ title: 'Home' }}>
-	<div class='flex w-full flex-col gap-y-10'>
+	<div class='flex w-full flex-col gap-y-16'>
 		<section class='flex flex-col items-center gap-y-7'>
 			<Image
 				src={astro}
 				alt='profile photo'
-				class='h-28 w-auto rounded-full bg-[#FFBE98] p-2'
+				class='h-28 w-auto rounded-full object-cover'
 				loading='eager'
 			/>
 
 			<div class='flex flex-col items-center gap-y-4'>
-				<h1 class='text-3xl font-bold'>Lorem ipsum dolor</h1>
-				<a
-					href='https://github.com/srleom/astro-theme-resume.git'
-					class='flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
-				>
-					<span class='relative flex items-center justify-center'>
-						<span
-							class='absolute inline-flex h-2 w-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75'
-						></span>
-						<span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span>
-					</span>
-
-					<p class='font-medium'>Get free template</p>
-				</a>
+				<h1 class='text-3xl font-bold'>Vincent Octavian Tiono</h1>
 				<div class='flex flex-wrap justify-center gap-x-7 gap-y-3'>
 					<Label title='Lorem Ipsum'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-5 w-5' slot='icon'
@@ -85,13 +125,14 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			</div>
 		</section>
 
-		<Section title='About'>
+		<!-- <Section title='About'>
 			<p class='text-muted-foreground'>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis atque quia omnis
 				consectetur, voluptas praesentium veniam blanditiis ratione asperiores accusantium laborum
 				odit commodi quis deserunt incidunt et dolor iure ut! Lorem ipsum dolor sit, amet
 				consectetur adipisicing elit. Alias quia, doloribus ut beatae perspiciatis voluptatibus.
 			</p>
+			
 		</Section>
 		{
 			allPostsByDate.length > 0 && (
@@ -105,62 +146,90 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 					</ul>
 				</Section>
 			)
-		}
+		} -->
 
 		<Section title='Experience'>
-			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-12 w-auto md:-left-16'
-			>
-				<ul class='ml-4 list-disc text-muted-foreground'>
-					<li>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-						molestiae laboriosam pariatur!
+			<div class='flex gap-2'>
+				{
+					experienceTabs.map((tab, index) => (
+						<button
+							class='experience-toggle rounded-full border px-4 py-2 text-sm font-medium'
+							data-target={tab.id}
+							data-active={index === 0 ? 'true' : 'false'}
+						>
+							{tab.label}
+						</button>
+					))
+				}
+			</div>
 
-						<li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
-					</li>
-				</ul>
-			</Card>
-			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-12 w-auto md:-left-16'
-			/>
+			{
+				experienceTabs.map((tab, index) => (
+					<div
+						class:list={['experience-panel', index === 0 ? 'block' : 'hidden']}
+						data-panel={tab.id}
+					>
+						<div class='border-l border-border pl-8'>
+							{tab.items.map((item) => (
+								<article class='relative pb-12 last:pb-0'>
+									<span class='absolute -left-[41px] top-1.5 h-4 w-4 rounded-full border-4 border-background bg-muted' />
+									<time class='mb-1 font-mono text-sm leading-none tracking-tight text-gray-400 dark:text-gray-500'>
+										{item.date}
+									</time>
+									<h3 class='font-medium dark:text-white'>{item.name}</h3>
+									<p class='mt-1 max-w-lg text-sm text-gray-700 dark:text-gray-300'>
+										{item.description}
+									</p>
+								</article>
+							))}
+						</div>
+					</div>
+				))
+			}
 		</Section>
 
-		<Section title='Education'>
-			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-12 w-auto md:-left-16'
-			>
-				<ul class='ml-4 list-disc text-muted-foreground'>
-					<li>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-						molestiae laboriosam pariatur!
+		<script>
+			const toggles = document.querySelectorAll('.experience-toggle')
+			const panels = document.querySelectorAll('.experience-panel')
 
-						<li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
-					</li>
-				</ul>
-			</Card>
-			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-12 w-auto md:-left-16'
-			/>
+			function showPanel(target: string) {
+				panels.forEach((panel) => {
+					const isActive = panel.getAttribute('data-panel') === target
+					panel.classList.toggle('hidden', !isActive)
+					panel.classList.toggle('block', isActive)
+				})
+
+				toggles.forEach((toggle) => {
+					const isActive = toggle.getAttribute('data-target') === target
+					toggle.setAttribute('data-active', String(isActive))
+				})
+			}
+
+			toggles.forEach((toggle) => {
+				toggle.addEventListener('click', () => {
+					const target = toggle.getAttribute('data-target')
+					if (target) showPanel(target)
+				})
+			})
+		</script>
+
+		<Section title='Education'>
+			<div class='border-l border-border pl-8'>
+				{
+					educationItems.map((item) => (
+						<article class='relative pb-12 last:pb-0'>
+							<span class='absolute -left-[41px] top-1.5 h-4 w-4 rounded-full border-4 border-background bg-muted' />
+							<time class='mb-1 font-mono text-sm leading-none tracking-tight text-gray-400 dark:text-gray-500'>
+								{item.date}
+							</time>
+							<h3 class='font-medium dark:text-white'>{item.name}</h3>
+							<p class='mt-1 max-w-lg text-sm text-gray-700 dark:text-gray-300'>
+								{item.description}
+							</p>
+						</article>
+					))
+				}
+			</div>
 		</Section>
 
 		<Section title='Projects'>
@@ -184,10 +253,11 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			</div>
 		</Section>
 
-		<Section title='Certifications'>
-			<Card
-				as='a'
-				heading='Lorem ipsum, dolor sit amet consectetur adipisicing.'
+		{
+			/* <Section title='Certifications'>
+				<Card
+					as='a'
+					heading='Lorem ipsum, dolor sit amet consectetur adipisicing.'
 				subheading='Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dicta magni consequuntur corrupti.'
 				date='Mar 2024 - Mar 2024'
 				imagePath='/src/assets/about-astro.png'
@@ -203,28 +273,18 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 				imagePath='/src/assets/about-astro.png'
 				altText='Lorem, ipsum dolor sit'
 				imageClass='h-11 w-auto md:-left-16'
-				href='https://www.google.com'
-			/>
-		</Section>
+					href='https://www.google.com'
+				/>
+			</Section> */
+		}
 
-		<Section title='Skills'>
-			<SkillLayout title='Languages' skills={languages} />
-			<SkillLayout title='Frontend' skills={frontend} />
-			<SkillLayout title='Backend' skills={backend} />
-			<SkillLayout title='Others' skills={others} />
-		</Section>
+		{
+			/* <Section title='Skills'>
+				<SkillLayout title='Languages' skills={languages} />
+				<SkillLayout title='Frontend' skills={frontend} />
+				<SkillLayout title='Backend' skills={backend} />
+				<SkillLayout title='Others' skills={others} />
+			</Section> */
+		}
 	</div>
-	<a
-		href='https://github.com/srleom/astro-theme-resume.git'
-		class='mt-16 flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
-	>
-		<span class='relative flex items-center justify-center'>
-			<span
-				class='absolute inline-flex h-2 w-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75'
-			></span>
-			<span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span>
-		</span>
-
-		<p class='font-medium'>Get free template</p>
-	</a>
 </PageLayout>
