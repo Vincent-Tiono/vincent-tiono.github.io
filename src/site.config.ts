@@ -6,7 +6,7 @@ export const siteConfig: SiteConfig = {
 	author: 'Vincent Tiono',
 	// Meta property used to construct the meta title property, found in src/components/BaseHead.astro L:11
 	title: 'Vincent Tiono',
-	// Meta property used as the default description meta property
+	// Shared site description used for the default meta description and social preview copy
 	description: 'website',
 	// HTML lang property, found in src/layouts/Base.astro L:18
 	lang: 'en-GB',
