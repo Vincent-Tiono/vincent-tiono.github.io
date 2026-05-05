@@ -23,10 +23,16 @@ const experienceTabs = [
 		label: 'AI',
 		items: [
 			{
-				date: '2024 - Present',
-				name: 'AI Experience',
+				date: 'Feb 2025 - Present',
+				name: 'Undergrad Researcher @ <a href="https://nturll.xyz/about" target="_blank" rel="noreferrer">NTU Robot Learning Lab</a>',
 				description:
-					'Built AI-powered tools and automation workflows. Worked with LLMs, prompt engineering, and data pipelines.'
+					'Robot Learning and Programmatic Reinforcement Learning'
+			},
+			{
+				date: 'Mar 2025 - June 2025',
+				name: 'AI and Data Analytics Intern @ <a href="https://www.ubiik.com/" target="_blank" rel="noreferrer">Ubiik</a>',
+				description:
+					'Built an auto-reimbursement system'
 			}
 		]
 	},
@@ -35,10 +41,16 @@ const experienceTabs = [
 		label: 'Finance',
 		items: [
 			{
-				date: '2023 - Present',
-				name: 'Finance Experience',
+				date: 'Oct 2025 - Dec 2025',
+				name: 'Quant Research Intern @ <a href="https://www.viciholdings.com/en/" target="_blank" rel="noreferrer">VICI Holdings</a>',
 				description:
-					'Analyzed financial data, reports, and market trends. Created dashboards and models for decision-making.'
+					'Alpha research for HFT strategies'
+			},
+			{
+				date: 'June 2025 - Aug 2025',
+				name: 'Summer Associate @ <a href="https://www.ey.com/zh_tw/services/strategy/parthenon" target="_blank" rel="noreferrer">EY-Parthenon</a>',
+				description:
+					'M&A, ESG'
 			}
 		]
 	},
@@ -47,10 +59,16 @@ const experienceTabs = [
 		label: 'Business',
 		items: [
 			{
-				date: '2022 - Present',
-				name: 'Business Experience',
+				date: 'June 2026 - Aug 2026',
+				name: 'Logistics Intern @ <a href="https://www.mmsgi.co.id/en/" target="_blank" rel="noreferrer">MMS Group Indonesia</a>',
 				description:
-					'Worked on business strategy, operations, and growth projects. Collaborated with teams to improve processes and outcomes.'
+					'Incoming'
+			},
+			{
+				date: 'June 2024 - Aug 2024',
+				name: 'Business Intern @ <a href="https://www.walsin.com/" target="_blank" rel="noreferrer">Walsin Lihwa</a>',
+				description:
+					'Had fun in Indo\'s nickel industry'
 			}
 		]
 	}
@@ -176,7 +194,10 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 									<time class='mb-1 font-mono text-sm leading-none tracking-tight text-gray-400 dark:text-gray-500'>
 										{item.date}
 									</time>
-									<h3 class='font-medium dark:text-white'>{item.name}</h3>
+										<h3
+											class='font-medium dark:text-white [&_a]:underline [&_a]:underline-offset-2'
+											set:html={item.name}
+										/>
 									<p class='mt-1 max-w-lg text-sm text-gray-700 dark:text-gray-300'>
 										{item.description}
 									</p>
@@ -222,7 +243,10 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 							<time class='mb-1 font-mono text-sm leading-none tracking-tight text-gray-400 dark:text-gray-500'>
 								{item.date}
 							</time>
-							<h3 class='font-medium dark:text-white'>{item.name}</h3>
+								<h3
+									class='font-medium dark:text-white [&_a]:underline [&_a]:underline-offset-2'
+									set:html={item.name}
+								/>
 							<p class='mt-1 max-w-lg text-sm text-gray-700 dark:text-gray-300'>
 								{item.description}
 							</p>
