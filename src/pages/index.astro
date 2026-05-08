@@ -172,6 +172,62 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			)
 		} -->
 
+		<Section>
+			<div class='flex flex-wrap items-center gap-x-3 gap-y-1' slot='title'>
+				<h2 class='text-lg font-bold sm:text-xl'>📌</h2>
+				<span
+					id='pinned-countdown'
+					class='rounded-full border border-border px-2.5 py-1 font-mono text-xs text-muted-foreground'
+					data-target='2026-05-23T23:59:00+07:00'
+				>
+					Loading countdown...
+				</span>
+			</div>
+			<div class='-mx-6 overflow-x-auto px-6 pb-2 sm:-mx-10 sm:px-10'>
+				<div class='flex snap-x gap-x-3'>
+					<ProjectCard
+						href='https://scapac-makna.vercel.app/'
+						heading='Pre-order Kain Makna 2026/5/9-5/23!</em>'
+						subheading='by Solar Chapter APAC'
+						imagePath='/src/assets/solchap-kain-makna.png'
+						imageClass='!h-40 object-[center_15%]'
+						altText='Example'
+						class='w-[32rem] max-w-full shrink-0 snap-start'
+					/>
+				</div>
+			</div>
+		</Section>
+
+		<script>
+			const pinnedCountdown = document.querySelector<HTMLElement>('#pinned-countdown')
+			const pinnedCountdownTarget = new Date(
+				pinnedCountdown?.dataset.target ?? ''
+			).getTime()
+
+			function updatePinnedCountdown() {
+				if (!pinnedCountdown || Number.isNaN(pinnedCountdownTarget)) return
+
+				const remaining = pinnedCountdownTarget - Date.now()
+
+				if (remaining <= 0) {
+					pinnedCountdown.textContent = 'Ended'
+					window.clearInterval(pinnedCountdownInterval)
+					return
+				}
+
+				const totalSeconds = Math.floor(remaining / 1000)
+				const days = Math.floor(totalSeconds / 86400)
+				const hours = Math.floor((totalSeconds % 86400) / 3600)
+				const minutes = Math.floor((totalSeconds % 3600) / 60)
+				const seconds = totalSeconds % 60
+
+				pinnedCountdown.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s left`
+			}
+
+			const pinnedCountdownInterval = window.setInterval(updatePinnedCountdown, 1000)
+			updatePinnedCountdown()
+		</script>
+
 		<Section title='Experience'>
 			<div class='flex gap-2'>
 				{
@@ -273,14 +329,14 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 						altText='Example'
 						class='w-64 shrink-0 snap-start sm:w-64'
 					/>
-					<!-- <ProjectCard
+					<ProjectCard
 						href='https://scapac-makna.vercel.app/'
-						heading='Pre-order Kain Makna!</em>'
+						heading='Pre-order Kain Makna 2026/5/9-5/23!</em>'
 						subheading='by Solar Chapter APAC'
 						imagePath='/src/assets/solchap-kain-makna.png'
 						altText='Example'
 						class='w-64 shrink-0 snap-start sm:w-64'
-					/> -->
+					/>
 				</div>
 			</div>
 		</Section>

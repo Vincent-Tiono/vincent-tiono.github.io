@@ -6,7 +6,13 @@ const { class: className, title } = Astro.props
 
 <section class={cn(className, 'flex flex-col gap-y-5')}>
 	<div>
-		<h2 class='text-lg font-bold sm:text-xl'>{title}</h2>
+		{
+			Astro.slots.has('title') ? (
+				<slot name='title' />
+			) : (
+				<h2 class='text-lg font-bold sm:text-xl'>{title}</h2>
+			)
+		}
 	</div>
 	<div class='flex flex-col gap-y-3'>
 		<slot />
