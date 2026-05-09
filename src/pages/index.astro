@@ -44,7 +44,7 @@ const experienceTabs = [
 				date: 'Jan 2026 - Present',
 				name: 'Analyst @ <a href="https://www.linkedin.com/company/oic-indonesia/posts/?feedView=all" target="_blank" rel="noreferrer">OIC Indonesia</a>',
 				description:
-					'M&A Strategy'
+					'M&A Strategy (<a href="https://drive.google.com/drive/folders/1UmPHs6u5A63jt6-iIkWN7LqXU7Ny5b2b?usp=drive_link" target="_blank" rel="noreferrer">projects↗</a>)'
 			},
 			{
 				date: 'Oct 2025 - Dec 2025',
@@ -56,7 +56,7 @@ const experienceTabs = [
 				date: 'June 2025 - Aug 2025',
 				name: 'Summer Associate @ <a href="https://www.ey.com/zh_tw/services/strategy/parthenon" target="_blank" rel="noreferrer">EY-Parthenon</a>',
 				description:
-					'M&A, ESG'
+					'M&A, ESG (<a href="https://drive.google.com/file/d/1aWMdUc1-SVo1TD8fRihXl0dZOOIe1_rD/view?usp=drive_link" target="_blank" rel="noreferrer">project↗</a>)'
 			}
 		]
 	},
@@ -260,9 +260,10 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 											class='font-medium dark:text-white [&_a]:underline [&_a]:underline-offset-2'
 											set:html={item.name}
 										/>
-									<p class='mt-1 max-w-lg text-sm text-gray-700 dark:text-gray-300'>
-										{item.description}
-									</p>
+									<p
+										class='mt-1 max-w-lg text-sm text-gray-700 dark:text-gray-300 [&_a]:no-underline'
+										set:html={item.description}
+									/>
 								</article>
 							))}
 						</div>
